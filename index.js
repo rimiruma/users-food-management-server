@@ -123,6 +123,21 @@ async function run() {
       }
     });
 
+    // DELETE food by id
+    app.delete("/foods/:id", async (req, res) => {
+      const { id } = req.params;
+
+      try {
+        const result = await foodsCollection.deleteOne({ _id: new ObjectId(id) });
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Food not found" });
+        }
+        res.send({ success: true, message: "Food deleted successfully" });
+      } catch (error) {
+        res.status(500).send({ message: error.message });
+      }
+    });
+
 
 
 
